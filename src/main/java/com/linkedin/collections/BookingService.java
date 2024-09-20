@@ -2,6 +2,7 @@ package com.linkedin.collections;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class BookingService {
 
@@ -17,8 +18,11 @@ public class BookingService {
 		 * Returns a boolean that indicates if the Guest was
 		 * successfully placed in the room.
 		 */
-		
-		return false;
+		Guest guest2 = bookings.putIfAbsent(room, guest);
+			if(guest2 ==null)
+				return true;
+			else
+				return false;
 	}
 
 	public double totalRevenue() {
@@ -27,7 +31,9 @@ public class BookingService {
 		 * 2. Returns a double that totals the rate of each Room booked
 		 * in the bookings Map.
 		 */
-		return 0;
+		Set<Room> roomList = bookings.keySet();
+
+		return roomList.stream().mapToDouble(r -> r.getRate()).sum();
 	}
 	
 	public Map<Room, Guest> getBookings() {
